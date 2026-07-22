@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-anastasia-said",
+  "version": "0.1.0",
+  "description": "Portfolio d'Anastasia Said — Intégratrice Web (OpenClassrooms)",
+  "scripts": {
+    "dev": "live-server front --port=5500"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "author": "Anastasia Said",
+  "license": "ISC"
+}
