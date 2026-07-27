@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -53,6 +54,7 @@ h1, h2, h3 {
   color: #14172b;
 }
 
+/* ---------- EN-TÊTE / MENU ---------- */
 
 header.site-header {
   position: sticky;
@@ -100,6 +102,7 @@ header.site-header {
   cursor: pointer;
 }
 
+/* ---------- SECTION D'ACCUEIL (HERO) ---------- */
 
 .hero {
   padding: 90px 0;
@@ -163,8 +166,14 @@ header.site-header {
   border: 1px solid #dcdde4;
   border-radius: 8px;
   overflow: hidden;
+  animation: float 6s ease-in-out infinite;
 }
 
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
 
 .code-card-bar {
   display: flex;
@@ -188,6 +197,7 @@ header.site-header {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: #5b6178;
+  white-space: pre-wrap;
 }
 .code-card .tag { color: #0f8fab; }
 .code-card .attr { color: #b5722a; }
@@ -202,11 +212,11 @@ header.site-header {
   animation: blink 1s step-end infinite;
 }
 
-/* L'animation "blink" fait juste apparaître/disparaître l'opacité */
 @keyframes blink {
   50% { opacity: 0; }
 }
 
+/* ---------- RÈGLE COMMUNE À TOUTES LES SECTIONS ---------- */
 
 section {
   padding: 80px 0;
@@ -220,6 +230,8 @@ section {
 .section-head p {
   color: #5b6178;
 }
+
+/* ---------- SECTION À PROPOS ---------- */
 
 .about-grid {
   display: flex;
@@ -251,6 +263,8 @@ section {
 .info-list li span:last-child {
   color: #14172b;
 }
+
+/* ---------- SECTION PROJETS ---------- */
 
 .projects-grid {
   display: flex;
@@ -308,6 +322,7 @@ section {
   border-bottom: 1px solid #dcdde4;
 }
 
+/* ---------- SECTION COMPÉTENCES ---------- */
 
 .skills-groups {
   display: flex;
@@ -334,7 +349,6 @@ section {
   margin-bottom: 6px;
 }
 
-/* La barre grise vide, qui sert de fond */
 .skill-bar-track {
   height: 6px;
   background-color: #e8eaf3;
@@ -342,8 +356,6 @@ section {
   overflow: hidden;
 }
 
-/* La barre bleue qui se remplit. Sa largeur (width) est changée par le JavaScript,
-   et la "transition" fait que le remplissage est animé au lieu d'être instantané */
 .skill-bar-fill {
   height: 100%;
   background-color: #0f8fab;
@@ -351,6 +363,7 @@ section {
   transition: width 1s ease;
 }
 
+/* ---------- SECTION CONTACT ---------- */
 
 .contact-grid {
   display: flex;
@@ -407,6 +420,7 @@ form.contact-form {
   color: #5b6178;
 }
 
+/* ---------- PIED DE PAGE ---------- */
 
 footer.site-footer {
   border-top: 1px solid #dcdde4;
@@ -420,9 +434,9 @@ footer.site-footer {
   gap: 10px;
 }
 
-@media (max-width: 820px) {
+/* ---------- VERSION MOBILE (écran de moins de 820px de large) ---------- */
 
-  /* Le menu est caché par défaut sur mobile... */
+@media (max-width: 820px) {
   .nav-links {
     display: none;
     flex-direction: column;
@@ -435,7 +449,6 @@ footer.site-footer {
     border-bottom: 1px solid #dcdde4;
   }
 
-  /* ...et il apparaît uniquement quand le JavaScript ajoute la classe "open" au clic sur le bouton */
   .nav-links.open {
     display: flex;
   }
