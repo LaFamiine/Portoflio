@@ -27,7 +27,6 @@ function Projects() {
     <section id="projects">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">&lt;section id="projects"&gt;</span>
           <h2>Projets</h2>
           <p>Trois emplacements prêts à recevoir tes vrais projets — modifie le tableau "projects" en haut de ce fichier.</p>
         </div>

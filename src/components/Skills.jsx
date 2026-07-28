@@ -63,7 +63,6 @@ function Skills() {
     <section id="skills" ref={sectionRef}>
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">&lt;section id="skills"&gt;</span>
           <h2>Compétences</h2>
           <p>Ajuste le niveau ("level") de chaque compétence dans ce fichier selon ton propre niveau.</p>
         </div>

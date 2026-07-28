@@ -3,7 +3,6 @@ function Hero() {
     <section className="hero" style={{ borderTop: 'none' }}>
       <div className="wrap hero-grid">
         <div>
-          <span className="eyebrow">&lt;header&gt;</span>
           <h1>
             Anastasia Said,<br />
             <span className="accent">intégratrice web.</span>

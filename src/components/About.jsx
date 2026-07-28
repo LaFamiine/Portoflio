@@ -3,7 +3,6 @@ function About() {
     <section id="about">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">&lt;section id="about"&gt;</span>
           <h2>À propos</h2>
         </div>
         <div className="about-grid">
