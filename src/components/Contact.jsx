@@ -19,16 +19,13 @@ function Contact() {
     <section id="contact">
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">&lt;footer&gt;</span>
           <h2>Contact</h2>
         </div>
         <div className="contact-grid">
           <div className="contact-info">
-            <p>Une opportunité, une question, ou juste envie d'échanger ? Écris-moi.</p>
             <ul className="contact-channels">
-              <li>📧 <a href="mailto:contact@anastasiasaid.fr">contact@anastasiasaid.fr</a></li>
-              <li>💻 <a href="https://github.com/" target="_blank" rel="noopener noreferrer">github.com/anastasiasaid</a></li>
-              <li>🔗 <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">linkedin.com/in/anastasiasaid</a></li>
+              <li>📧 <a href="mailto:contact@anastasiasaid.fr">anastasiasaidfara@gmail.com</a></li>
+              <li>💻 <a href="https://github.com/LaFamiine" target="_blank" rel="noopener noreferrer">https://github.com/LaFamiine</a></li>
             </ul>
           </div>
 
@@ -66,7 +63,6 @@ function Contact() {
               ></textarea>
             </div>
             <button type="submit" className="btn btn-primary">Envoyer</button>
-            <p className="form-note">Pas encore branché à un serveur — étape suivante : Node.js + MongoDB.</p>
           </form>
         </div>
       </div>
