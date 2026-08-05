@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
 
 const SERVICE_ID = 'service_dg7t4xi'
-const TEMPLATE_ID = 'template_dg7t4xi'
+const TEMPLATE_ID = 'template_mavedzk'
 const PUBLIC_KEY = 'rQ5ic6tUtD9rsXOuS'
 
 function Contact() {
