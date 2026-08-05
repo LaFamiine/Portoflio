@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
 
-const SERVICE_ID = 'TON_SERVICE_ID'
-const TEMPLATE_ID = 'TON_TEMPLATE_ID'
-const PUBLIC_KEY = 'TA_PUBLIC_KEY'
+const SERVICE_ID = 'service_dg7t4xi'
+const TEMPLATE_ID = 'template_dg7t4xi'
+const PUBLIC_KEY = 'rQ5ic6tUtD9rsXOuS'
 
 function Contact() {
   const formRef = useRef(null)
@@ -35,7 +35,7 @@ function Contact() {
           <div className="contact-info">
             <p>Une opportunité, une question, ou juste envie d'échanger ? Écris-moi.</p>
             <ul className="contact-channels">
-              <li>📧 <a href="mailto:anastasiasaidfara@gmail.com">anastasiasaidfara@gmail.com</a></li>
+              <li>📧 <a href="mailto:anastasiasaidfara@gmail.com" target="_blank" rel="noopener noreferrer">anastasiasaidfara@gmail.com</a></li>
               <li>💻 <a href="https://github.com/LaFamiine" target="_blank" rel="noopener noreferrer">https://github.com/LaFamiine</a></li>
             </ul>
           </div>

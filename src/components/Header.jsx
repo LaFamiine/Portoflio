@@ -6,9 +6,12 @@ function Header() {
   return (
     <header className="site-header">
       <div className="nav-inner">
-        <a href="#top" className="logo">
-          anastasia<span>.said</span>
-        </a>
+        <a href="#top" className="logo-mark">
+  <span className="logo-circle">
+    <span className="logo-a">A</span>
+    <span className="logo-s">S</span>
+  </span>
+</a>
 
         <button
           className="nav-toggle"
