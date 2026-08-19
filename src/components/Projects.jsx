@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 function Projects() {
   const [projects, setProjects] = useState([])
 
-  // useEffect se déclenche une fois que le composant est affiché à l'écran :
-  // on va chercher les projets sur l'API à ce moment-là.
   useEffect(() => {
     fetch('http://localhost:5000/api/projects')
       .then((res) => res.json())

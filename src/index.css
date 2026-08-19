@@ -54,6 +54,24 @@ h1, h2, h3 {
 
 /* ---------- EN-TÊTE / MENU ---------- */
 
+.admin-bar {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.admin-bar a {
+  color: #c9c2c6;
+}
+
+.admin-bar a:hover {
+  color: #c2467c;
+}
+
+.admin-return {
+  padding-top: 24px;
+}
+
 header.site-header {
   position: sticky;
   top: 0;
