@@ -11,11 +11,11 @@ const emptyForm = {
   codeUrl: '',
 }
 
-function Admin() {
+function Admin({ token }) {
   const [projects, setProjects] = useState([])
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
-  const [status, setStatus] = useState('') 
+  const [status, setStatus] = useState('')
 
   const fetchProjects = () => {
     fetch(API_URL)
@@ -39,7 +39,7 @@ function Admin() {
       title: project.title,
       tag: project.tag,
       description: project.description,
-      stack: project.stack.join(', '), 
+      stack: project.stack.join(', '),
       liveUrl: project.liveUrl || '',
       codeUrl: project.codeUrl || '',
     })
@@ -56,14 +56,17 @@ function Admin() {
     const confirmed = window.confirm('Supprimer ce projet définitivement ?')
     if (!confirmed) return
 
-    fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+    fetch(`${API_URL}/${id}`, {
+      method: 'DELETE',
+      headers: { 'x-token': token },
+    })
       .then(() => {
         setStatus('Projet supprimé.')
         fetchProjects()
       })
       .catch((error) => {
         console.error(error)
-        setStatus("Erreur lors de la suppression.")
+        setStatus('Erreur lors de la suppression.')
       })
   }
 
@@ -80,22 +83,25 @@ function Admin() {
 
     fetch(url, {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-token': token,
+      },
       body: JSON.stringify(payload),
     })
       .then((res) => {
-        if (!res.ok) throw new Error("L'enregistrement a échoué")
+        if (!res.ok) throw new Error("L'enregistrement a échoué — session expirée ?")
         return res.json()
       })
       .then(() => {
-        setStatus(editingId ? 'Projet modifié ✅' : 'Projet ajouté ✅')
+        setStatus(editingId ? 'Projet modifié.' : 'Projet ajouté.')
         setForm(emptyForm)
         setEditingId(null)
         fetchProjects()
       })
       .catch((error) => {
         console.error(error)
-        setStatus('❌ ' + error.message)
+        setStatus(error.message)
       })
   }
 

@@ -157,6 +157,14 @@ header.site-header {
   cursor: pointer;
 }
 
+.login-wrap {
+  max-width: 400px;
+}
+
+.login-error {
+  color: #c2467c;
+}
+
 /* ---------- SECTION D'ACCUEIL (HERO) ---------- */
 
 .hero {

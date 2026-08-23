@@ -7,19 +7,26 @@ import Skills from './components/Skills.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import Admin from './components/Admin.jsx'
+import Login from './components/Login.jsx'
 
 function App() {
   const [showAdmin, setShowAdmin] = useState(false)
+  const [token, setToken] = useState(localStorage.getItem('token') || null)
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setToken(null)
+    setShowAdmin(false)
+  }
 
   if (showAdmin) {
     return (
       <>
         <div className="wrap admin-return">
-          <button className="btn btn-ghost" onClick={() => setShowAdmin(false)}>
-            ← Retour au site
-          </button>
+          <button className="btn btn-ghost" onClick={() => setShowAdmin(false)}>← Retour au site</button>
+          {token && <button className="btn btn-ghost" onClick={handleLogout}>Se déconnecter</button>}
         </div>
-        <Admin />
+        {token ? <Admin token={token} /> : <Login onLoginSuccess={setToken} />}
       </>
     )
   }
@@ -27,9 +34,7 @@ function App() {
   return (
     <>
       <div className="admin-bar">
-        <a href="#" onClick={(e) => { e.preventDefault(); setShowAdmin(true) }}>
-          administration
-        </a>
+        <a href="#" onClick={(e) => { e.preventDefault(); setShowAdmin(true) }}>administration</a>
       </div>
       <Header />
       <main id="top">
