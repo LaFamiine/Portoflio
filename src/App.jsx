@@ -63,11 +63,12 @@ function App() {
           </a>
         )}
       </div>
+
       <Header />
       <main id="top">
         <Hero content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
         <About content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
-        <Projects editMode={editMode} token={token} />
+        <Projects content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
         <Skills content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
       </main>
       <Contact content={content} editMode={editMode} token={token} onContentUpdate={setContent} />

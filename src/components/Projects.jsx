@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 
 const API_URL = 'http://localhost:5000/api/projects'
-
 const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '' }
 
-function Projects({ editMode, token }) {
+function Projects({ content, editMode, token, onContentUpdate }) {
   const [projects, setProjects] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
   const [status, setStatus] = useState('')
+
+  // ---------- Image de fond de cette section ----------
+  const [editingBg, setEditingBg] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState('')
 
   const fetchProjects = () => {
     fetch(API_URL)
@@ -70,18 +73,85 @@ function Projects({ editMode, token }) {
       })
   }
 
+  // Lit le fichier choisi, le transforme en texte (base64), et l'enregistre
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    setUploadStatus('Chargement...')
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      fetch('http://localhost:5000/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'x-token': token },
+        body: JSON.stringify({ backgroundImageUrl: reader.result }),
+      })
+        .then((res) => res.json())
+        .then((updated) => {
+          onContentUpdate(updated)
+          setEditingBg(false)
+          setUploadStatus('')
+        })
+        .catch(() => setUploadStatus("Erreur lors de l'enregistrement."))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleRemoveBg = () => {
+    fetch('http://localhost:5000/api/content', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-token': token },
+      body: JSON.stringify({ backgroundImageUrl: '' }),
+    })
+      .then((res) => res.json())
+      .then((updated) => {
+        onContentUpdate(updated)
+        setEditingBg(false)
+      })
+  }
+
+  // Style appliqué uniquement à cette section, si une image est enregistrée
+  const sectionStyle = content?.backgroundImageUrl
+    ? {
+        backgroundImage: `url(${content.backgroundImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }
+    : {}
+
   return (
-    <section id="projects" className="admin-section">
+    <section id="projects" className="admin-section" style={sectionStyle}>
       {editMode && (
-        <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
-          {showForm ? 'Fermer' : '+ Ajouter un projet'}
-        </button>
+        <div style={{ position: 'absolute', top: '16px', right: '24px', display: 'flex', gap: '10px', zIndex: 5 }}>
+          <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
+            {editingBg ? 'Fermer' : 'Image de fond'}
+          </button>
+          <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
+            {showForm ? 'Fermer' : '+ Ajouter un projet'}
+          </button>
+        </div>
       )}
+
       <div className="wrap">
         <div className="section-head">
-          <span className="eyebrow">&lt;section id="projects"&gt;</span>
           <h2>Projets</h2>
         </div>
+
+        {editMode && editingBg && (
+          <div className="contact-form edit-form" style={{ maxWidth: '500px', marginBottom: '32px' }}>
+            <div>
+              <label htmlFor="bgFile">Image de fond de cette section</label>
+              <input type="file" id="bgFile" accept="image/*" onChange={handleFileSelect} />
+            </div>
+            <div className="btn-row">
+              <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
+                Retirer l'image
+              </button>
+            </div>
+            {uploadStatus && <p className="form-note">{uploadStatus}</p>}
+          </div>
+        )}
 
         {editMode && showForm && (
           <form className="contact-form edit-form" onSubmit={handleSubmit} style={{ maxWidth: '600px', marginBottom: '32px' }}>
