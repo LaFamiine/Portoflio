@@ -7,8 +7,12 @@ import Skills from './components/Skills.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import Login from './components/Login.jsx'
+import Error from './components/error.jsx'
 
 function App() {
+  if (window.location.pathname !== '/') {
+    return <Error />
+  }
   const [token, setToken] = useState(localStorage.getItem('token') || null)
   const [editMode, setEditMode] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
@@ -20,6 +24,7 @@ function App() {
       .then((data) => setContent(data))
       .catch((error) => console.error('Erreur de chargement du contenu :', error))
   }
+
 
   useEffect(() => {
     fetchContent()
