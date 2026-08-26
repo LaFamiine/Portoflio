@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const API_URL = 'http://localhost:5000/api/projects'
-const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '' }
+const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '', image: '' }
 
 function Projects({ content, editMode, token, onContentUpdate }) {
   const [projects, setProjects] = useState([])
@@ -10,7 +10,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
   const [editingId, setEditingId] = useState(null)
   const [status, setStatus] = useState('')
 
-  // ---------- Image de fond de cette section ----------
   const [editingBg, setEditingBg] = useState(false)
   const [uploadStatus, setUploadStatus] = useState('')
 
@@ -35,6 +34,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       stack: project.stack.join(', '),
       liveUrl: project.liveUrl || '',
       codeUrl: project.codeUrl || '',
+      image: project.image || '', 
     })
     setEditingId(project._id)
     setShowForm(true)
@@ -54,7 +54,10 @@ function Projects({ content, editMode, token, onContentUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const payload = { ...form, stack: form.stack.split(',').map((s) => s.trim()).filter(Boolean) }
+    const payload = { 
+      ...form, 
+      stack: form.stack.split(',').map((s) => s.trim()).filter(Boolean) 
+    }
     const url = editingId ? `${API_URL}/${editingId}` : API_URL
     const method = editingId ? 'PUT' : 'POST'
 
@@ -73,13 +76,22 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       })
   }
 
-  // Lit le fichier choisi, le transforme en texte (base64), et l'enregistre
+  const handleProjectImageSelect = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setForm({ ...form, image: reader.result })
+    }
+    reader.readAsDataURL(file)
+  }
+
   const handleFileSelect = (e) => {
     const file = e.target.files[0]
     if (!file) return
 
     setUploadStatus('Chargement...')
-
     const reader = new FileReader()
     reader.onload = () => {
       fetch('http://localhost:5000/api/content', {
@@ -111,7 +123,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       })
   }
 
-  // Style appliqué uniquement à cette section, si une image est enregistrée
   const sectionStyle = content?.backgroundImageUrl
     ? {
         backgroundImage: `url(${content.backgroundImageUrl})`,
@@ -167,6 +178,14 @@ function Projects({ content, editMode, token, onContentUpdate }) {
               <label htmlFor="description">Description</label>
               <textarea id="description" name="description" value={form.description} onChange={handleChange} required></textarea>
             </div>
+            
+            {/* --- NOUVEAU : Champ pour l'image du projet --- */}
+            <div>
+              <label htmlFor="projectImage">Image du projet (optionnel)</label>
+              <input type="file" id="projectImage" accept="image/*" onChange={handleProjectImageSelect} />
+              {form.image && <p className="form-note" style={{color: '#B12562E6'}}> Image prête à être enregistrée</p>}
+            </div>
+
             <div>
               <label htmlFor="stack">Technologies (séparées par virgules)</label>
               <input type="text" id="stack" name="stack" value={form.stack} onChange={handleChange} />
@@ -190,6 +209,13 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         <div className="projects-grid">
           {projects.map((project) => (
             <article className="project-card" key={project._id}>
+              
+              {project.image && (
+                <div className="project-image">
+                  <img src={project.image} alt={project.title} loading="lazy" />
+                </div>
+              )}
+
               <span className="ptag">{project.tag}</span>
               <h3>{project.title}</h3>
               <p>{project.description}</p>
