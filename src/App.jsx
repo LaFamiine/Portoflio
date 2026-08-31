@@ -60,15 +60,15 @@ if (showLogin) {
   return (
     <>
       <div className="admin-bar">
-        <a href="#" onClick={(e) => { e.preventDefault(); handleAdminClick() }}>
-          {token ? (editMode ? 'quitter le mode édition' : 'mode édition') : 'administration'}
-        </a>
-        {token && (
-          <a href="#" onClick={(e) => { e.preventDefault(); handleLogout() }}>
-            se déconnecter
-          </a>
-        )}
-      </div>
+  <a href="#" onClick={(e) => { e.preventDefault(); handleAdminClick() }}>
+    {token ? (editMode ? 'quitter le mode édition' : 'mode édition') : 'connexion'}
+  </a>
+  {token && (
+    <a href="#" onClick={(e) => { e.preventDefault(); handleLogout() }}>
+      se déconnecter
+    </a>
+  )}
+</div>
 
       <Header />
       <main id="top">

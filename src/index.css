@@ -55,18 +55,14 @@ h1, h2, h3 {
 /* ---------- EN-TÊTE / MENU ---------- */
 
 .admin-bar {
-  text-align: center;
-  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 10px 24px;
   font-size: 12px;
 }
-
-.admin-bar a {
-  color: #6B6B6B;
-}
-
-.admin-bar a:hover {
-  color: #B12562E6;
-}
+.admin-bar a { color: #c9c2c6; }
+.admin-bar a:hover { color: #c2467c; }
 
 .admin-return {
   padding-top: 24px;
