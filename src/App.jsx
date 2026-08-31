@@ -44,17 +44,18 @@ function App() {
     }
   }
 
-  if (showLogin) {
-    return (
-      <Login
-        onLoginSuccess={(t) => {
-          setToken(t)
-          setShowLogin(false)
-          setEditMode(true)
-        }}
-      />
-    )
-  }
+if (showLogin) {
+  return (
+    <Login
+      onLoginSuccess={(t) => {
+        setToken(t)
+        setShowLogin(false)
+        setEditMode(true)
+      }}
+      onBack={() => setShowLogin(false)}
+    />
+  )
+}
 
   return (
     <>

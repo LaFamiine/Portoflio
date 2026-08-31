@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Login({ onLoginSuccess }) {
+function Login({ onLoginSuccess, onBack }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -53,7 +53,12 @@ function Login({ onLoginSuccess }) {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">Se connecter</button>
+          <div className="btn-row">
+            <button type="submit" className="btn btn-primary">Se connecter</button>
+            <button type="button" className="btn btn-ghost" onClick={onBack}>
+              Retour
+            </button>
+          </div>
           {error && <p className="form-note login-error">{error}</p>}
         </form>
       </div>
