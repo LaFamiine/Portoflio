@@ -69,9 +69,9 @@ h1, h2, h3 {
 header.site-header {
   position: sticky;
   top: 0;
-  background-color: #ffffff;
-  border-bottom: 1px solid #FDF2F8;
-  padding: 16px 0;
+  ...
+  z-index: 50;
+  ...
 }
 
 .nav-inner {
