@@ -331,6 +331,7 @@ header.site-header {
 section {
   padding: 80px 0;
   border-top: 1px solid #FDF2F8;
+  scroll-margin-top: 90px;
 }
 
 .section-head {
