@@ -55,18 +55,16 @@ h1, h2, h3 {
 /* ---------- EN-TÊTE / MENU ---------- */
 
 .admin-bar {
+  position: fixed;
+  top: 16px;
+  right: 24px;
   display: flex;
-  justify-content: flex-end;
   gap: 20px;
-  padding: 10px 24px;
   font-size: 12px;
+  z-index: 100;
 }
 .admin-bar a { color: #c9c2c6; }
 .admin-bar a:hover { color: #c2467c; }
-
-.admin-return {
-  padding-top: 24px;
-}
 
 header.site-header {
   position: sticky;
