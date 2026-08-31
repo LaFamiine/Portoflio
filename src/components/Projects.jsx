@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:5000/api/projects'
+const API_URL = 'https://portofolio-back.vercel.app/api/projects'
 const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '', image: '' }
 
 function Projects({ content, editMode, token, onContentUpdate }) {
@@ -94,7 +94,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
     setUploadStatus('Chargement...')
     const reader = new FileReader()
     reader.onload = () => {
-      fetch('http://localhost:5000/api/content', {
+      fetch('https://portofolio-back.vercel.app/api/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-token': token },
         body: JSON.stringify({ backgroundImageUrl: reader.result }),
@@ -111,7 +111,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
   }
 
   const handleRemoveBg = () => {
-    fetch('http://localhost:5000/api/content', {
+    fetch('https://portofolio-back.vercel.app/api/content', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'x-token': token },
       body: JSON.stringify({ backgroundImageUrl: '' }),

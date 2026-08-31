@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:5000/api/projects'
+const API_URL = 'https://portofolio-back.vercel.app/api/projects'
 
 const emptyForm = {
   title: '',

@@ -80,7 +80,7 @@ function About({ content, editMode, token, onContentUpdate }) {
 
   const handleSave = (e) => {
     e.preventDefault()
-    fetch('http://localhost:5000/api/content', {
+    fetch('https://portofolio-back.vercel.app/api/content', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'x-token': token },
       body: JSON.stringify({

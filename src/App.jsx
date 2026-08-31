@@ -19,7 +19,7 @@ function App() {
   const [content, setContent] = useState(null)
 
   const fetchContent = () => {
-    fetch('http://localhost:5000/api/content')
+    fetch('https://portofolio-back.vercel.app/api/content')
       .then((res) => res.json())
       .then((data) => setContent(data))
       .catch((error) => console.error('Erreur de chargement du contenu :', error))
