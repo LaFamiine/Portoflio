@@ -67,7 +67,7 @@ h1, h2, h3 {
 .admin-bar a:hover { color: #c2467c; }
 
 header.site-header {
-  position: sticky;
+  position: static;
   top: 0;
   ...
   z-index: 50;
@@ -331,7 +331,6 @@ header.site-header {
 section {
   padding: 80px 0;
   border-top: 1px solid #FDF2F8;
-  scroll-margin-top: 110px;
 }
 
 .section-head {
