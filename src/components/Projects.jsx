@@ -134,15 +134,15 @@ function Projects({ content, editMode, token, onContentUpdate }) {
   return (
     <section id="projects" className="admin-section" style={sectionStyle}>
       {editMode && (
-        <div style={{ position: 'absolute', top: '16px', right: '24px', display: 'flex', gap: '10px', zIndex: 5 }}>
-          <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
-            {editingBg ? 'Fermer' : 'Image de fond'}
-          </button>
-          <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
-            {showForm ? 'Fermer' : '+ Ajouter un projet'}
-          </button>
-        </div>
-      )}
+  <div className="admin-btn-row">
+    <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
+      {editingBg ? 'Fermer' : 'Image de fond'}
+    </button>
+    <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
+      {showForm ? 'Fermer' : '+ Ajouter un projet'}
+    </button>
+  </div>
+)}
 
       <div className="wrap">
         <div className="section-head">
