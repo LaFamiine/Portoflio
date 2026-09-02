@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
 const API_URL = 'https://portofolio-back.vercel.app/api/projects'
-const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '', image: '' }
+const CONTENT_URL = 'https://portofolio-back.vercel.app/api/content'
+const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '' }
 
 function Projects({ content, editMode, token, onContentUpdate }) {
   const [projects, setProjects] = useState([])
@@ -11,6 +12,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
   const [status, setStatus] = useState('')
 
   const [editingBg, setEditingBg] = useState(false)
+  const [bgUrlInput, setBgUrlInput] = useState(content?.backgroundImageUrl || '')
   const [uploadStatus, setUploadStatus] = useState('')
 
   const fetchProjects = () => {
@@ -34,7 +36,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       stack: project.stack.join(', '),
       liveUrl: project.liveUrl || '',
       codeUrl: project.codeUrl || '',
-      image: project.image || '', 
     })
     setEditingId(project._id)
     setShowForm(true)
@@ -55,9 +56,9 @@ function Projects({ content, editMode, token, onContentUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const payload = { 
-      ...form, 
-      stack: form.stack.split(',').map((s) => s.trim()).filter(Boolean) 
+    const payload = {
+      ...form,
+      stack: form.stack.split(',').map((s) => s.trim()).filter(Boolean),
     }
     const url = editingId ? `${API_URL}/${editingId}` : API_URL
     const method = editingId ? 'PUT' : 'POST'
@@ -77,42 +78,23 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       })
   }
 
-  const handleProjectImageSelect = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setForm({ ...form, image: reader.result })
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    setUploadStatus('Chargement...')
-    const reader = new FileReader()
-    reader.onload = () => {
-      fetch('https://portofolio-back.vercel.app/api/content', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'x-token': token },
-        body: JSON.stringify({ backgroundImageUrl: reader.result }),
+  const handleSaveBgUrl = () => {
+    fetch(CONTENT_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-token': token },
+      body: JSON.stringify({ backgroundImageUrl: bgUrlInput }),
+    })
+      .then((res) => res.json())
+      .then((updated) => {
+        onContentUpdate(updated)
+        setEditingBg(false)
+        setUploadStatus('')
       })
-        .then((res) => res.json())
-        .then((updated) => {
-          onContentUpdate(updated)
-          setEditingBg(false)
-          setUploadStatus('')
-        })
-        .catch(() => setUploadStatus("Erreur lors de l'enregistrement."))
-    }
-    reader.readAsDataURL(file)
+      .catch(() => setUploadStatus("Erreur lors de l'enregistrement."))
   }
 
   const handleRemoveBg = () => {
-    fetch('https://portofolio-back.vercel.app/api/content', {
+    fetch(CONTENT_URL, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'x-token': token },
       body: JSON.stringify({ backgroundImageUrl: '' }),
@@ -120,6 +102,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       .then((res) => res.json())
       .then((updated) => {
         onContentUpdate(updated)
+        setBgUrlInput('')
         setEditingBg(false)
       })
   }
@@ -135,15 +118,15 @@ function Projects({ content, editMode, token, onContentUpdate }) {
   return (
     <section id="projects" className="admin-section" style={sectionStyle}>
       {editMode && (
-  <div className="admin-btn-row">
-    <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
-      {editingBg ? 'Fermer' : 'Image de fond'}
-    </button>
-    <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
-      {showForm ? 'Fermer' : '+ Ajouter un projet'}
-    </button>
-  </div>
-)}
+        <div className="admin-btn-row">
+          <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
+            {editingBg ? 'Fermer' : 'Image de fond'}
+          </button>
+          <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
+            {showForm ? 'Fermer' : '+ Ajouter un projet'}
+          </button>
+        </div>
+      )}
 
       <div className="wrap">
         <div className="section-head">
@@ -151,31 +134,31 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         </div>
 
         {editMode && editingBg && (
-  <div className="contact-form edit-form bg-form">
-    <div>
-      <label htmlFor="bgUrl">URL de l'image de fond</label>
-      <input
-        type="text"
-        id="bgUrl"
-        value={bgUrlInput}
-        onChange={(e) => setBgUrlInput(e.target.value)}
-        placeholder="https://exemple.com/mon-image.jpg"
-      />
-    </div>
-    <div className="btn-row">
-      <button type="button" className="btn btn-primary" onClick={handleSaveBgUrl}>
-        Enregistrer
-      </button>
-      <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
-        Retirer l'image
-      </button>
-    </div>
-    {uploadStatus && <p className="form-note">{uploadStatus}</p>}
-  </div>
-)}
+          <div className="contact-form edit-form bg-form">
+            <div>
+              <label htmlFor="bgUrl">URL de l'image de fond</label>
+              <input
+                type="text"
+                id="bgUrl"
+                value={bgUrlInput}
+                onChange={(e) => setBgUrlInput(e.target.value)}
+                placeholder="https://exemple.com/mon-image.jpg"
+              />
+            </div>
+            <div className="btn-row">
+              <button type="button" className="btn btn-primary" onClick={handleSaveBgUrl}>
+                Enregistrer
+              </button>
+              <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
+                Retirer l'image
+              </button>
+            </div>
+            {uploadStatus && <p className="form-note">{uploadStatus}</p>}
+          </div>
+        )}
 
         {editMode && showForm && (
-          <form className="contact-form edit-form" onSubmit={handleSubmit} style={{ maxWidth: '600px', marginBottom: '32px' }}>
+          <form className="contact-form edit-form project-form" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="title">Titre</label>
               <input type="text" id="title" name="title" value={form.title} onChange={handleChange} required />
@@ -188,14 +171,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
               <label htmlFor="description">Description</label>
               <textarea id="description" name="description" value={form.description} onChange={handleChange} required></textarea>
             </div>
-            
-            {/* --- NOUVEAU : Champ pour l'image du projet --- */}
-            <div>
-              <label htmlFor="projectImage">Image du projet (optionnel)</label>
-              <input type="file" id="projectImage" accept="image/*" onChange={handleProjectImageSelect} />
-              {form.image && <p className="form-note" style={{color: '#B12562E6'}}> Image prête à être enregistrée</p>}
-            </div>
-
             <div>
               <label htmlFor="stack">Technologies (séparées par virgules)</label>
               <input type="text" id="stack" name="stack" value={form.stack} onChange={handleChange} />
@@ -219,13 +194,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         <div className="projects-grid">
           {projects.map((project) => (
             <article className="project-card" key={project._id}>
-              
-              {project.image && (
-                <div className="project-image">
-                  <img src={project.image} alt={project.title} loading="lazy" />
-                </div>
-              )}
-
               <span className="ptag">{project.tag}</span>
               <h3>{project.title}</h3>
               <p>{project.description}</p>
@@ -239,9 +207,9 @@ function Projects({ content, editMode, token, onContentUpdate }) {
                 <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">Code source</a>
               </div>
               {editMode && (
-                <div className="project-links" style={{ marginTop: '10px' }}>
+                <div className="project-links admin-links">
                   <a href="#" onClick={(e) => { e.preventDefault(); handleEdit(project) }}>Modifier</a>
-                  <a href="#" onClick={(e) => { e.preventDefault(); handleDelete(project._id) }} style={{ color: '#c2467c' }}>Supprimer</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); handleDelete(project._id) }} className="delete-link">Supprimer</a>
                 </div>
               )}
             </article>
