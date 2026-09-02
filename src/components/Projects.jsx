@@ -151,19 +151,28 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         </div>
 
         {editMode && editingBg && (
-          <div className="contact-form edit-form" style={{ maxWidth: '500px', marginBottom: '32px' }}>
-            <div>
-              <label htmlFor="bgFile">Image de fond de cette section</label>
-              <input type="file" id="bgFile" accept="image/*" onChange={handleFileSelect} />
-            </div>
-            <div className="btn-row">
-              <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
-                Retirer l'image
-              </button>
-            </div>
-            {uploadStatus && <p className="form-note">{uploadStatus}</p>}
-          </div>
-        )}
+  <div className="contact-form edit-form bg-form">
+    <div>
+      <label htmlFor="bgUrl">URL de l'image de fond</label>
+      <input
+        type="text"
+        id="bgUrl"
+        value={bgUrlInput}
+        onChange={(e) => setBgUrlInput(e.target.value)}
+        placeholder="https://exemple.com/mon-image.jpg"
+      />
+    </div>
+    <div className="btn-row">
+      <button type="button" className="btn btn-primary" onClick={handleSaveBgUrl}>
+        Enregistrer
+      </button>
+      <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
+        Retirer l'image
+      </button>
+    </div>
+    {uploadStatus && <p className="form-note">{uploadStatus}</p>}
+  </div>
+)}
 
         {editMode && showForm && (
           <form className="contact-form edit-form" onSubmit={handleSubmit} style={{ maxWidth: '600px', marginBottom: '32px' }}>

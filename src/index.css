@@ -203,6 +203,11 @@ header.site-header {
   box-shadow: 0 10px 30px rgba(177, 37, 98, 0.08);
 }
 
+.bg-form {
+  max-width: 500px;
+  margin-bottom: 32px;
+}
+
 /* ---------- SECTION D'ACCUEIL (HERO) ---------- */
 
 .hero {
