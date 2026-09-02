@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react'
 
 const API_URL = 'https://portofolio-back.vercel.app/api/projects'
-const CONTENT_URL = 'https://portofolio-back.vercel.app/api/content'
-const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '' }
+const emptyForm = { title: '', tag: '', description: '', stack: '', liveUrl: '', codeUrl: '', imageUrl: '' }
 
-function Projects({ content, editMode, token, onContentUpdate }) {
+function Projects({ editMode, token }) {
   const [projects, setProjects] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
   const [status, setStatus] = useState('')
-
-  const [editingBg, setEditingBg] = useState(false)
-  const [bgUrlInput, setBgUrlInput] = useState(content?.backgroundImageUrl || '')
-  const [uploadStatus, setUploadStatus] = useState('')
 
   const fetchProjects = () => {
     fetch(API_URL)
@@ -36,6 +31,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       stack: project.stack.join(', '),
       liveUrl: project.liveUrl || '',
       codeUrl: project.codeUrl || '',
+      imageUrl: project.imageUrl || '',
     })
     setEditingId(project._id)
     setShowForm(true)
@@ -78,50 +74,10 @@ function Projects({ content, editMode, token, onContentUpdate }) {
       })
   }
 
-  const handleSaveBgUrl = () => {
-    fetch(CONTENT_URL, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'x-token': token },
-      body: JSON.stringify({ backgroundImageUrl: bgUrlInput }),
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        onContentUpdate(updated)
-        setEditingBg(false)
-        setUploadStatus('')
-      })
-      .catch(() => setUploadStatus("Erreur lors de l'enregistrement."))
-  }
-
-  const handleRemoveBg = () => {
-    fetch(CONTENT_URL, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'x-token': token },
-      body: JSON.stringify({ backgroundImageUrl: '' }),
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        onContentUpdate(updated)
-        setBgUrlInput('')
-        setEditingBg(false)
-      })
-  }
-
-  const sectionStyle = content?.backgroundImageUrl
-    ? {
-        backgroundImage: `url(${content.backgroundImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }
-    : {}
-
   return (
-    <section id="projects" className="admin-section" style={sectionStyle}>
+    <section id="projects" className="admin-section">
       {editMode && (
         <div className="admin-btn-row">
-          <button className="edit-btn" onClick={() => setEditingBg(!editingBg)}>
-            {editingBg ? 'Fermer' : 'Image de fond'}
-          </button>
           <button className="edit-btn" onClick={() => { setShowForm(!showForm); setEditingId(null); setForm(emptyForm) }}>
             {showForm ? 'Fermer' : '+ Ajouter un projet'}
           </button>
@@ -132,30 +88,6 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         <div className="section-head">
           <h2>Projets</h2>
         </div>
-
-        {editMode && editingBg && (
-          <div className="contact-form edit-form bg-form">
-            <div>
-              <label htmlFor="bgUrl">URL de l'image de fond</label>
-              <input
-                type="text"
-                id="bgUrl"
-                value={bgUrlInput}
-                onChange={(e) => setBgUrlInput(e.target.value)}
-                placeholder="https://exemple.com/mon-image.jpg"
-              />
-            </div>
-            <div className="btn-row">
-              <button type="button" className="btn btn-primary" onClick={handleSaveBgUrl}>
-                Enregistrer
-              </button>
-              <button type="button" className="btn btn-ghost" onClick={handleRemoveBg}>
-                Retirer l'image
-              </button>
-            </div>
-            {uploadStatus && <p className="form-note">{uploadStatus}</p>}
-          </div>
-        )}
 
         {editMode && showForm && (
           <form className="contact-form edit-form project-form" onSubmit={handleSubmit}>
@@ -170,6 +102,20 @@ function Projects({ content, editMode, token, onContentUpdate }) {
             <div>
               <label htmlFor="description">Description</label>
               <textarea id="description" name="description" value={form.description} onChange={handleChange} required></textarea>
+            </div>
+            <div>
+              <label htmlFor="imageUrl">URL de l'image du projet</label>
+              <input
+                type="text"
+                id="imageUrl"
+                name="imageUrl"
+                value={form.imageUrl}
+                onChange={handleChange}
+                placeholder="https://exemple.com/mon-image.jpg"
+              />
+              {form.imageUrl && (
+                <img src={form.imageUrl} alt="Aperçu" className="image-preview" />
+              )}
             </div>
             <div>
               <label htmlFor="stack">Technologies (séparées par virgules)</label>
@@ -194,6 +140,9 @@ function Projects({ content, editMode, token, onContentUpdate }) {
         <div className="projects-grid">
           {projects.map((project) => (
             <article className="project-card" key={project._id}>
+              {project.imageUrl && (
+                <img src={project.imageUrl} alt={project.title} className="project-card-image" />
+              )}
               <span className="ptag">{project.tag}</span>
               <h3>{project.title}</h3>
               <p>{project.description}</p>

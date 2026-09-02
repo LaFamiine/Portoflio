@@ -74,7 +74,7 @@ if (showLogin) {
       <main id="top">
         <Hero content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
         <About content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
-        <Projects content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
+        <Projects editMode={editMode} token={token} />
         <Skills content={content} editMode={editMode} token={token} onContentUpdate={setContent} />
       </main>
       <Contact content={content} editMode={editMode} token={token} onContentUpdate={setContent} />

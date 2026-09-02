@@ -71,6 +71,10 @@ h1, h2, h3 {
 .admin-bar a { color: #c9c2c6; }
 .admin-bar a:hover { color: #c2467c; }
 
+.admin-links {
+  margin-top: 10px;
+}
+
 header.site-header {
   position: static;
   top: 0;
@@ -177,6 +181,13 @@ header.site-header {
 .admin-bar a:hover { color: #B12562E6; }
 
 .admin-section { position: relative; }
+
+.image-preview {
+  max-width: 150px;
+  margin-top: 10px;
+  border-radius: 8px;
+  display: block;
+}
 
 .edit-btn {
   font-family: 'JetBrains Mono', monospace;
@@ -419,6 +430,15 @@ section {
   box-shadow: 0 10px 30px rgba(177, 37, 98, 0.08);
   transition: transform 0.2s ease;
 }
+
+.project-card-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
 .project-card:hover {
   transform: translateY(-4px);
 }
