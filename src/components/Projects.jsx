@@ -38,6 +38,7 @@ function Projects({ content, editMode, token, onContentUpdate }) {
     })
     setEditingId(project._id)
     setShowForm(true)
+    setStatus('')
   }
 
   const handleCancel = () => {
