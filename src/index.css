@@ -170,9 +170,6 @@ header.site-header {
 .admin-section { position: relative; }
 
 .edit-btn {
-  position: absolute;
-  top: 16px;
-  right: 24px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   padding: 6px 14px;
@@ -182,6 +179,12 @@ header.site-header {
   color: #ffffff;
   cursor: pointer;
   z-index: 5;
+}
+
+.admin-section > .edit-btn {
+  position: absolute;
+  top: 16px;
+  right: 24px;
 }
 
 .admin-btn-row {
